@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "dev": "ts-node src/service.ts"
+    "dev": "ts-node src/service.ts",
+    "build": "tsc",
+    "start": "node dist/service.js"
   },
   "author": "",
   "license": "ISC",
