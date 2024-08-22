@@ -1,0 +1,81 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Devices {
+  id Int @id @default(autoincrement())
+
+  name           String
+  serial_number  String          @unique
+  mac_address    String          @unique
+  is_provisioned Boolean         @default(false)
+  is_active      Boolean         @default(false)
+  ClientDevices  ClientDevices[]
+  DeviceUsers    DeviceUsers[]
+
+  @@map("cdnr_devices")
+}
+
+model DeviceUsers {
+  id Int @id @default(autoincrement())
+
+  device_fk Int
+
+  username String
+  password String
+  host     String
+  port     Int
+  default  Boolean @default(false)
+
+  Devices Devices @relation(fields: [device_fk], references: [id])
+
+  @@map("cdnr_devices_users")
+}
+
+model ClientDevices {
+  id            Int    @id @default(autoincrement())
+  name          String
+  serial_number String @unique
+  mac_address   String @unique
+
+  mk_arp_id String?
+
+  is_active Boolean @default(false)
+
+  device_fk Int
+
+  Devices              Devices                @relation(fields: [device_fk], references: [id])
+  ClientDeviceSessions ClientDeviceSessions[]
+
+  @@map("cdnr_client_devices")
+}
+
+model ClientDeviceSessions {
+  id Int @id @default(autoincrement())
+
+  client_devices_fk Int
+
+  start_time DateTime?
+  stop_time  DateTime?
+  download   Int       @default(0)
+  upload     Int       @default(0)
+  status     Boolean   @default(true)
+
+  updated_at DateTime?
+  created_at DateTime?
+
+  ClientDevices ClientDevices @relation(fields: [client_devices_fk], references: [id])
+
+  @@map("cdnr_client_device_sessions")
+}

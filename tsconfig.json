@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "target": "ESNext", // Define o alvo da compilação, como ES6 ou superior
+    "module": "CommonJS", // Define o sistema de módulos (CommonJS para Node.js)
+    "rootDir": "./src", // Diretório raiz do código fonte
+    "outDir": "./dist", // Diretório de saída para os arquivos compilados
+    "strict": true, // Habilita verificações rigorosas de tipo
+    "esModuleInterop": true, // Habilita interoperabilidade entre ES modules e CommonJS
+    "forceConsistentCasingInFileNames": true, // Impede diferenças de capitalização nos nomes dos arquivos
+    "skipLibCheck": true, // Ignora verificação de tipo em arquivos de definição de biblioteca
+    "typeRoots": [
+      "./node_modules/@types",
+      "./src/@types" // ou onde seus tipos personalizados estão localizados
+    ]
+  },
+  "include": ["src/**/*"], // Inclui todos os arquivos .ts no diretório src
+  "exclude": ["node_modules", "dist"] // Exclui a pasta node_modules e dist
+}
