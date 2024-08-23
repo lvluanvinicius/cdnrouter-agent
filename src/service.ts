@@ -63,9 +63,13 @@ async function main() {
       let d = parseInt(download);
       let u = parseInt(upload);
 
+      // caso o valor de upload e download seja 0, não será efetuado update no banco para economia recurso de máquina.
+      if (d === 0 && u === 0) continue;
+
       // Recuperando objeto de sessão.
       const { ClientDeviceSessions } = cDv;
 
+      // Valida se há alguma sessão para esse dispositivo.
       if (ClientDeviceSessions.length <= 0) continue;
 
       const deviceSession = ClientDeviceSessions[0];
@@ -90,8 +94,22 @@ async function main() {
       });
     }
 
-    connect.close();
+    connect.close(); // Encerra a conexão com o device.
   }
 }
 
-main();
+setInterval(async () => {
+  console.log(
+    `[${toUTCDate(
+      new Date().toString()
+    )}] Iniciando coleta de download e upload.`
+  );
+
+  await main();
+
+  console.log(
+    `[${toUTCDate(
+      new Date().toString()
+    )}] coleta de upload e download concluída.`
+  );
+}, 5000);
