@@ -1,7 +1,7 @@
 version: '3.8'
 services:
   cdnrouter-agent:
-    image: cdnrouter-agent:1.0.2
+    image: cdnrouter-agent:1.0.6
     environment:
-      - DATABASE_URL=mysql://root:passwd@host:3306/lab_cednetrouter
+      - DATABASE_URL=mysql://root:@DitCD34a9@10.254.192.22:3306/lab_cednetrouter
 

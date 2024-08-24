@@ -63,9 +63,6 @@ async function main() {
       let d = parseInt(download);
       let u = parseInt(upload);
 
-      // caso o valor de upload e download seja 0, não será efetuado update no banco para economia recurso de máquina.
-      if (d === 0 && u === 0) continue;
-
       // Recuperando objeto de sessão.
       const { ClientDeviceSessions } = cDv;
 
@@ -74,12 +71,22 @@ async function main() {
 
       const deviceSession = ClientDeviceSessions[0];
 
+      // Recupernado data.
+      const updatedAt = toUTCDate(new Date().toString());
+
+      // Cria um history da sessão no time de coleta.
+      await prisma.clientDevicesUsageHistories.create({
+        data: {
+          device_session_fk: deviceSession.id,
+          upload: u,
+          download: d,
+          collection_date: updatedAt,
+        },
+      });
+
       // Atualizando valores de upload e download.
       d += deviceSession.download;
       u += deviceSession.upload;
-
-      // Recupernado data.
-      const updatedAt = toUTCDate(new Date().toString());
 
       // Atualizando valores de upload e download.
       await prisma.clientDeviceSessions.update({

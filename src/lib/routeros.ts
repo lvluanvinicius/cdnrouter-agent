@@ -15,5 +15,7 @@ export const routerosClient = (
     user: username,
     password: password,
     port,
+    timeout: 3000,
+    keepalive: true,
   });
 };
