@@ -24,6 +24,9 @@ COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/prisma ./prisma
 
+# Definir o fuso horário
+ENV TZ=America/Sao_Paulo
+
 ENV NODE_ENV=production
 
 CMD ["node", "dist/service.js"]
