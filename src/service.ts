@@ -101,6 +101,7 @@ async function main() {
       });
     }
 
+    prisma.$disconnect;
     connect.close(); // Encerra a conexão com o device.
   }
 }
