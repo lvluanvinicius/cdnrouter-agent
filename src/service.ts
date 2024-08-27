@@ -57,7 +57,7 @@ async function main() {
       if (!queue) continue;
 
       // Recuperando upload e download.
-      const [download, upload] = queue.rate.split("/");
+      const [upload, download] = queue.rate.split("/");
 
       // Convertendo valores em inteiro.
       let d = parseInt(download);
