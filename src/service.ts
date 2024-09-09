@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 
-import { getCurrentDate, toUTCDate } from "./lib/formatter";
+import { client_devices_usage_histories } from "./collectors/client_devices_usage_histories";
+import { toUTCDate } from "./lib/formatter";
 import { prisma } from "./lib/prisma";
 import { routerosClient } from "./lib/routeros";
-import { queuePrint } from "./router/queue-print";
 
 async function main() {
   const masterDevices = await prisma.devices.findMany({
@@ -46,62 +46,14 @@ async function main() {
     const client = routerosClient(username, password, host, port);
     const connect = await client.connect();
 
-    for (let cDv of ClientDevices) {
-      if (!cDv.mk_arp_id) {
-        continue;
-      }
+    const [seconds, nanoseconds] = process.hrtime();
 
-      // Recuperando dados em tempo real.
-      const queue = await queuePrint(connect, cDv.mk_arp_id);
+    // Carregando dados de uso de dispositivos de clientes.
+    // await client_devices_usage_histories(connect, ClientDevices);
 
-      if (!queue) continue;
+    // Carregando dados das interfaces do dispositivo master.
 
-      // Recuperando upload e download.
-      const [upload, download] = queue.rate.split("/");
-
-      // Convertendo valores em inteiro.
-      let d = parseInt(download);
-      let u = parseInt(upload);
-
-      // Recuperando objeto de sessão.
-      const { ClientDeviceSessions } = cDv;
-
-      // Valida se há alguma sessão para esse dispositivo.
-      if (ClientDeviceSessions.length <= 0) continue;
-
-      const deviceSession = ClientDeviceSessions[0];
-
-      // Recupernado data.
-      const updatedAt = toUTCDate(new Date().toString());
-
-      // Cria um history da sessão no time de coleta.
-      await prisma.clientDevicesUsageHistories.create({
-        data: {
-          device_session_fk: deviceSession.id,
-          upload: u,
-          download: d,
-          collection_date: updatedAt,
-        },
-      });
-
-      // Atualizando valores de upload e download.
-      d += deviceSession.download;
-      u += deviceSession.upload;
-
-      // Atualizando valores de upload e download.
-      await prisma.clientDeviceSessions.update({
-        where: {
-          id: deviceSession.id,
-        },
-        data: {
-          download: d,
-          upload: u,
-          updated_at: updatedAt, //getCurrentDate(),
-        },
-      });
-    }
-
-    prisma.$disconnect;
+    await prisma.$disconnect();
     connect.close(); // Encerra a conexão com o device.
   }
 }

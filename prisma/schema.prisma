@@ -17,13 +17,14 @@ datasource db {
 model Devices {
   id Int @id @default(autoincrement())
 
-  name           String
-  serial_number  String          @unique
-  mac_address    String          @unique
-  is_provisioned Boolean         @default(false)
-  is_active      Boolean         @default(false)
-  ClientDevices  ClientDevices[]
-  DeviceUsers    DeviceUsers[]
+  name             String
+  serial_number    String             @unique
+  mac_address      String             @unique
+  is_provisioned   Boolean            @default(false)
+  is_active        Boolean            @default(false)
+  ClientDevices    ClientDevices[]
+  DeviceUsers      DeviceUsers[]
+  ItemsCollections ItemsCollections[]
 
   @@map("cdnr_devices")
 }
@@ -98,4 +99,38 @@ model ClientDevicesUsageHistories {
   ClientDeviceSessions ClientDeviceSessions @relation(fields: [device_session_fk], references: [id])
 
   @@map("cdnr_client_devices_usage_histories")
+}
+
+model ItemsCollections {
+  id Int @id @default(autoincrement())
+
+  temp_history String  @default("365d")
+  name         String
+  type         Int
+  description  String? @db.Text
+  status       Boolean @default(false)
+
+  device_fk Int
+
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+
+  Devices              Devices                @relation(fields: [device_fk], references: [id])
+  HistoriesCollections HistoriesCollections[]
+
+  @@map("cdnr_items_collections")
+}
+
+model HistoriesCollections {
+  id Int @id @default(autoincrement())
+
+  items_collections_fk Int
+
+  clock BigInt
+  ns    BigInt
+  value Float
+
+  ItemsCollections ItemsCollections @relation(fields: [items_collections_fk], references: [id])
+
+  @@map("cdnr_histories_collections")
 }
