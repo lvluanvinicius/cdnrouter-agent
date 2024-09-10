@@ -1,9 +1,10 @@
 #!/usr/bin/env node
 
-import { client_devices_usage_histories } from "./collectors/client_devices_usage_histories";
+import { client_devices_queues_usage_histories } from "./collectors/client_devices_queues_usage_histories";
 import { toUTCDate } from "./lib/formatter";
 import { prisma } from "./lib/prisma";
 import { routerosClient } from "./lib/routeros";
+import { deviceInterfacesPrint } from "./router/api/device-interfaces-print";
 
 async function main() {
   const masterDevices = await prisma.devices.findMany({
@@ -52,6 +53,11 @@ async function main() {
     // await client_devices_usage_histories(connect, ClientDevices);
 
     // Carregando dados das interfaces do dispositivo master.
+
+    const interfaces = await deviceInterfacesPrint(connect, "");
+    console.log(interfaces);
+
+    console.log(seconds, nanoseconds);
 
     await prisma.$disconnect();
     connect.close(); // Encerra a conexão com o device.

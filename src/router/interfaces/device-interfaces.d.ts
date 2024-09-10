@@ -1,0 +1,28 @@
+export interface DeviceInterfaces {
+  ".id": string; // Identificador da interface, geralmente uma string como "*1"
+  name: string; // Nome da interface (ex: "ether1")
+  "default-name": string; // Nome padrão da interface (ex: "ether1")
+  type: string; // Tipo da interface (ex: "ether")
+  mtu: string; // Maximum Transmission Unit (ex: "1500"), geralmente representado como string
+  "actual-mtu": string; // MTU atual em uso (ex: "1500")
+  l2mtu: string; // Layer 2 MTU (ex: "1598")
+  "max-l2mtu": string; // MTU máximo de camada 2 (ex: "2028")
+  "mac-address": string; // Endereço MAC (ex: "CC:2D:E0:63:49:94")
+  "last-link-up-time": string; // Último momento em que o link foi estabelecido (ex: "2024-08-01 10:05:52")
+  "link-downs": string; // Número de vezes que o link caiu (ex: "0")
+  "rx-byte": string; // Bytes recebidos (ex: "20810146698")
+  "tx-byte": string; // Bytes transmitidos (ex: "6529035548")
+  "rx-packet": string; // Pacotes recebidos (ex: "121584469")
+  "tx-packet": string; // Pacotes transmitidos (ex: "14033113")
+  "rx-drop": string; // Pacotes recebidos descartados (ex: "0")
+  "tx-drop": string; // Pacotes transmitidos descartados (ex: "0")
+  "tx-queue-drop": string; // Pacotes descartados na fila de transmissão (ex: "3368")
+  "rx-error": string; // Erros de recepção (ex: "0")
+  "tx-error": string; // Erros de transmissão (ex: "0")
+  "fp-rx-byte": string; // FastPath bytes recebidos (ex: "20318661070")
+  "fp-tx-byte": string; // FastPath bytes transmitidos (ex: "0")
+  "fp-rx-packet": string; // FastPath pacotes recebidos (ex: "121506303")
+  "fp-tx-packet": string; // FastPath pacotes transmitidos (ex: "0")
+  running: string; // Indica se a interface está ativa (ex: "true")
+  disabled: string; // Indica se a interface está desabilitada (ex: "false")
+}

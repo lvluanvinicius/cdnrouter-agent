@@ -1,5 +1,5 @@
 import { RouterOSAPI } from "node-routeros";
-import { RouterOSQueues } from "./interfaces/simple-queue";
+import { RouterOSQueues } from "../interfaces/simple-queue";
 
 export const queuePrint = async (session: RouterOSAPI, _id: string) => {
   const response = await session.write("/queue/simple/print", [

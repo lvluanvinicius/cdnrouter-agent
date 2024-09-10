@@ -1,10 +1,10 @@
 import { Prisma } from "@prisma/client";
 import { toUTCDate } from "../lib/formatter";
 import { prisma } from "../lib/prisma";
-import { queuePrint } from "../router/queue-print";
+import { queuePrint } from "../router/api/queue-print";
 import { RouterOSAPI } from "node-routeros";
 
-export async function client_devices_usage_histories(
+export async function client_devices_queues_usage_histories(
   session: RouterOSAPI,
   ClientDevices: Prisma.ClientDevicesGetPayload<{
     include: {

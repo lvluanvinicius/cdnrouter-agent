@@ -10,7 +10,8 @@
     "skipLibCheck": true, // Ignora verificação de tipo em arquivos de definição de biblioteca
     "typeRoots": [
       "./node_modules/@types",
-      "./src/@types" // ou onde seus tipos personalizados estão localizados
+      "./src/@types", // ou onde seus tipos personalizados estão localizados
+      "./src/router/interfaces"
     ]
   },
   "include": ["src/**/*"], // Inclui todos os arquivos .ts no diretório src
